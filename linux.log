@@ -32,5 +32,5 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'nidemima' WITH GRANT OP
 2、再刷新权限
 FLUSH PRIVILEGES;
 3、关闭防火墙
-systemctl stop|start firewalld
+systemctl stop(start) firewalld
 

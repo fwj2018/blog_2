@@ -1,0 +1,35 @@
+/bin/systemctl stop  crond.service 停止定时任务
+date -s "2018-10-26 11:10:00" 设置系统时间
+date 查看系统时间 
+文件压缩 .tar
+tar -zcvf xxx.tar.gz 要压缩的文件或目录
+例如：tar -zcvf fxw.tar.gz zdd/
+
+解压：
+tar -zxvf 要解压的压缩文件包
+ls /etc/ | wc -l >b.bin  查看etc目录下文件个数并记录在b.bin文件
+ps -ax | grep mysql 查看mysql是否启动
+du -h  统计该目录下文件大小
+date "+%F %T" 输出时间  格式为：2018-10-25 17:52:38
+数据库备份
+mysqldump -uroot -p o2o > /backup/mysql/111.sql
+查看用户
+cat /etc/passwd
+
+expr 7 \* 240
+service network restart
+linux  创建快捷方式 ln -fs target src（不要手动创建）
+查看系统版本 cat /etc/issue
+Federa 切换命令行登录 ln -fs /lib/systemd/system/multi-user.target /etc/systemd/system/default.target
+（图像登录：ln -fs /lib/systemd/system/graphical.target /etc/systemd/system/default.target）
+CentOS7 切换命令行登录 systemctl set-default multi-user.target
+查看系统版本 cat /etc/issue
+
+解决mysql连接不上本地
+1、使用xshell进入Linux下mysql控制台，然后输入一下命令
+/usr/local/mysql/bin/mysql -u root -p
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'nidemima' WITH GRANT OPTION;
+2、再刷新权限
+FLUSH PRIVILEGES;
+systemctl start firewalld
+

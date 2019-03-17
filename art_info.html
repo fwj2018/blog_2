@@ -1,0 +1,146 @@
+<!doctype html>
+<html ng-app="Art" ng-controller="info">
+<head>
+    <meta charset="utf-8">
+    <title ng-bind="info.title"></title>
+    <meta name="keywords" content="{{seo.keywords}}"/>
+    <meta name="description" content="{{seo.description}}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/html/home/css/base.css" rel="stylesheet">
+    <link href="/html/home/css/m.css" rel="stylesheet">
+    <script src="/html/home/js/jquery-1.8.3.min.js"></script>
+    <script src="/html/home/js/comm.js"></script>
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.js"></script>
+    <![endif]-->
+    <script src="/html/src/layui/layui.js"></script>
+    <script src="/html/src/angular.js"></script>
+</head>
+<body>
+<!--top begin-->
+<header id="header">
+    <div class="navbox">
+        <h2 id="mnavh"><span class="navicon"></span></h2>
+        <div class="logo"><a href="/">大海の小丸子 ~博客</a></div>
+        <nav>
+            <ul id="starlist">
+                <li><a href="/">首页</a></li>
+                <li><a href="/html/home/emotion.html">真情实感</a></li>
+                <li><a href="/html/home/code.html">Code笔记</a></li>
+                <li><a href="/html/home/time.html">往期文章</a></li>
+                <li><a href="/html/home/about.html">关于我</a></li>
+            </ul>
+        </nav>
+        <div class="searchico" style="display: none"></div>
+    </div>
+</header>
+<div class="searchbox">
+    <div class="search">
+        <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+            <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);"
+                   onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}"
+                   onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
+            <input name="show" value="title" type="hidden">
+            <input name="tempid" value="1" type="hidden">
+            <input name="tbname" value="news" type="hidden">
+            <input name="Submit" class="input_submit" value="搜索" type="submit">
+        </form>
+    </div>
+    <div class="searchclose"></div>
+</div>
+<!--top end-->
+<article>
+    <!--lbox begin-->
+    <div class="lbox">
+        <div class="content_box whitebg">
+            <h1 class="con_tilte" ng-bind="info.title"></h1>
+            <p class="bloginfo"><i class="avatar"><img src="/html/home/images/zdh.jpg"></i><span>张大海</span><span>{{info.time}}<!-- </span><span>【<a href="/">JHLFS</a>】</span></p> -->
+			</span><span>阅读量：<a ng-bind="info.scan"></a></span></p>
+            <p class="con_info"><b>简介</b>{{info.description}}</p>
+            <div class="con_text" ng-bind-html="info.content | trustHtml">
+            </div>
+            <p><span class="diggit" ng-click="dz(info.id)" style="cursor: pointer">很赞哦！ ({{info.like}})</span></p>
+            <!--<div class="nextinfo">-->
+            <!--<p>上一篇：<a href="/download/f/886.html">html5 个人博客模板《蓝色畅想》</a></p>-->
+            <!--<p>下一篇：<a href="/download/f/907.html">个人博客模板《tree》-响应式个人网站模板</a></p>-->
+            <!--</div>-->
+        </div>
+        <div class="whitebg">
+            <h2 class="htitle">相关文章</h2>
+            <ul class="otherlink">
+                <li ng-repeat="x in info_more"><span title="{{x.title}}" ng-click="read(x.id)" style="cursor:pointer" ng-bind="x.title"></span>
+                </li>
+                <center ng-show="show"><i>sorry，暂无数据！</i></center>
+            </ul>
+        </div>
+    </div>
+    <!--lbox end-->
+    <div class="rbox">
+        <div class="card">
+            <h2>我的名片</h2>
+            <p>网名：<span ng-bind="p.name"></span></p>
+            <p>职业：<span ng-bind="p.job"></span></p>
+            <p>现居：<span ng-bind="p.addr"></span></p>
+            <p>Email：<span ng-bind="p.qq"></span></p>
+            <ul class="linkmore">
+                <li><a href="/" target="_blank" class="iconfont icon-zhuye" title="网站地址"></a></li>
+                <li><a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=251630332@qq.com"
+                       target="_blank" class="iconfont icon-youxiang" title="我的邮箱"></a></li>
+                <li><a href="http://wpa.qq.com/msgrd?v=3&uin=251630332&site=qq&menu=yes" target="_blank"
+                       class="iconfont icon---" title="QQ联系我"></a></li>
+                <li id="weixin"><a href="#" target="_blank" class="iconfont icon-weixin" title="关注我的微信"></a><i><img
+                        src="/html/home/images/wx.jpg"></i></li>
+            </ul>
+        </div>
+        <div class="whitebg paihang">
+            <h2 class="htitle">点击排行</h2>
+            <section class="topnews imgscale"><a href="javascript:;"><img
+                    src="/html/home/images/ff.jpg"><span>一站式全栈学习</span></a></section>
+            <ul>
+                <li ng-repeat="c in c5"><i></i><a ng-bind="c.title" ng-click="read(c.id)" style="cursor:pointer"></a></li>
+            </ul>
+        </div>
+        <div class="ad whitebg imgscale">
+            <ul>
+                <a href="javascript:;"><img src="/html/home/images/ww.jpg"></a>
+            </ul>
+        </div>
+        <div class="whitebg tongji">
+            <h2 class="htitle">站点信息</h2>
+            <ul>
+                <li><b>建站时间</b>：<span ng-bind="siteInfo.date"></span></li>
+                <li><b>网站程序</b>：<span ng-bind="siteInfo.pro"></span></li>
+                <li><b>版本信息</b>：<a href="JavaScript:;" target="_blank">V2.0</a></li>
+                <li><b>文章统计</b>：<span ng-bind="siteInfo.num"></span></li>
+                <li><b>评论留言</b>：<span ng-bind="siteInfo.comment"></span></li>
+                <li><b>统计数据</b>：<a href="/html/admin/page/login/login.html" target="_blank" ng-bind="siteInfo.count"></a></li>
+                <li><b>微信公众号</b>：扫描二维码，关注我们</li>
+                <img src="/html/home/images/wx1.jpg" class="tongji_gzh">
+            </ul>
+        </div>
+        <div class="links whitebg">
+            <!--<h2 class="htitle"><span class="sqlink"><a href="/">申请链接</a></span>友情链接</h2>-->
+            <h2 class="htitle"><span class="sqlink"></span>友情链接</h2>
+            <ul>
+                <li ng-repeat="l in link"><a href="{{l.url}}" target="_blank" ng-bind="l.url_name"></a></li>
+            </ul>
+        </div>
+    </div>
+</article>
+<footer>
+    <div class="box">
+        <div class="endnav" style="text-align: center">
+            <p><b>大海の小丸子 ~博客</b></p>
+            <p>所有文章未经授权禁止转载、摘编、复制或建立镜像，如有违反，追究法律责任。举报邮箱：<a
+                    href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=251630332@qq.com"
+                    target="_blank">251630332@qq.com</a></p>
+            <p>Copyright © 2019 <a href="/html/admin/page/login/login.html" target="_blank">小丸子科技</a> All Rights Reserved.
+                备案号：<a href="http://www.miitbeian.gov.cn/" target="_blank"> 陕ICP备18012208号-1</a></p>
+        </div>
+    </div>
+    <a href="#">
+        <div class="top" ng-click="top()"></div>
+    </a></footer>
+</body>
+<script src="/html/src/controller/art.js"></script>
+</html>

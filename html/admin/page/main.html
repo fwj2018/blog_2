@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>首页--wanz后台管理模板 2.0</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="../css/public.css" media="all" />
+	<script src="../../src/jquery-1.8.3.min.js"></script>
+	<script src="../../src/angular.js"></script>
+</head>
+<body class="childrenBody" ng-app="App" ng-controller="wanz">
+	<blockquote class="layui-elem-quote layui-bg-green">
+		<div>欢迎登录wanz后台管理系统！当前时间为：<span id="nowTime"></span></div>
+	</blockquote>
+	<div class="layui-row layui-col-space10 panel_box">
+		<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+			<a href="javascript:;" data-url="page/user/userList.html">
+				<div class="panel_icon layui-bg-red">
+					<i class="layui-anim seraph icon-icon10" data-icon="icon-icon10"></i>
+				</div>
+				<div class="panel_word">
+					<span ng-cloak>{{gatherData.user_num}}</span>
+					<em>用户总数</em>
+					<cite class="layui-hide">用户中心</cite>
+				</div>
+			</a>
+		</div>
+		<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+			<a href="javascript:;" data-url="page/news/message.html">
+				<div class="panel_icon layui-bg-black">
+					<i class="layui-anim layui-icon" data-icon="&#xe63a;">&#xe63a;</i>
+				</div>
+				<div class="panel_word outIcons">
+					<span ng-cloak>{{gatherData.message_num}}</span>
+					<em>我的留言</em>
+					<cite class="layui-hide">我的留言</cite>
+				</div>
+			</a>
+		</div>
+		<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+			<a href="javascript:;" data-url="page/news/recruit.html">
+				<div class="panel_icon layui-bg-orange">
+					<i class="layui-anim layui-icon" data-icon="&#xe63c;">&#xe63c;</i>
+				</div>
+				<div class="panel_word">
+					<span ng-cloak>{{gatherData.recruit_num}}</span>
+					<em>招聘信息</em>
+					<cite class="layui-hide">招聘信息</cite>
+				</div>
+			</a>
+		</div>
+		<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+			<a href="javascript:;" data-url="page/news/newsList.html">
+				<div class="panel_icon layui-bg-green">
+					<i class="layui-anim layui-icon" data-icon="&#xe705;">&#xe705;</i>
+				</div>
+				<div class="panel_word">
+					<span ng-cloak>{{gatherData.art_num}}</span>
+					<em>新闻总数</em>
+					<cite class="layui-hide">文章中心</cite>
+				</div>
+			</a>
+		</div>
+		<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+			<a href="javascript:;" data-url="page/systemSetting/linkList.html">
+				<div class="panel_icon layui-bg-cyan">
+					<i class="layui-anim layui-icon" data-icon="&#xe64c;">&#xe64c;</i>
+				</div>
+				<div class="panel_word outIcons">
+					<span ng-cloak>{{gatherData.link_num}}</span>
+					<em>友情链接</em>
+					<cite class="layui-hide">友情链接</cite>
+				</div>
+			</a>
+		</div>
+		<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
+			<a href="javascript:;" data-url="page/product/imagesList.html">
+				<div class="panel_icon layui-bg-blue">
+					<i class="layui-icon layui-icon-component"></i>
+				</div>
+				<div class="panel_word outIcons">
+					<span ng-cloak>{{gatherData.product_num}}</span>
+					<em>公司产品</em>
+					<cite class="layui-hide">公司产品</cite>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="layui-row layui-col-space10">
+		<div class="layui-col-lg6 layui-col-md12">
+			<blockquote class="layui-elem-quote title">系统基本参数</blockquote>
+			<table class="layui-table magt0">
+				<colgroup>
+					<col width="150">
+					<col>
+				</colgroup>
+				<tbody>
+				<tr>
+					<td>当前版本</td>
+					<td class="version" ng-cloak>{{basicData.version}}</td>
+				</tr>
+				<tr>
+					<td>开发作者</td>
+					<td class="author" ng-cloak>{{basicData.developer}}</td>
+				</tr>
+				<tr>
+					<td>PHP版本</td>
+					<td class="homePage" ng-cloak>{{basicData.php}}</td>
+				</tr>
+				<tr>
+					<td>服务器环境</td>
+					<td class="server" ng-cloak>{{basicData.service}}</td>
+				</tr>
+				<tr>
+					<td>数据库版本</td>
+					<td class="dataBase" ng-cloak>{{basicData.mysql}}</td>
+				</tr>
+				<tr>
+					<td>最大上传限制</td>
+					<td class="maxUpload" ng-cloak>{{basicData.upload_max}}</td>
+				</tr>
+				<tr>
+					<td>服务端IP</td>
+					<td class="host" ng-cloak>{{basicData.host}}</td>
+				</tr>
+				<tr>
+					<td>当前用户权限</td>
+					<td class="userRights" ng-cloak>{{basicData.role}}</td>
+				</tr>
+				</tbody>
+			</table>
+			<blockquote class="layui-elem-quote title">最新新闻 <i class="layui-icon layui-red"></i></blockquote>
+			<table class="layui-table mag0" lay-skin="line">
+				<colgroup>
+					<col>
+					<col width="110">
+				</colgroup>
+				<tbody class="hot_news"></tbody>
+			</table>
+		</div>
+		<div class="layui-col-lg6 layui-col-md12">
+			<blockquote class="layui-elem-quote title">后台操作&amp;使用手册</blockquote>
+			<div class="layui-elem-quote layui-quote-nm history_box magb0">
+				<ul class="layui-timeline">
+					<li class="layui-timeline-item">
+						<i class="layui-icon layui-timeline-axis"></i>
+						<div class="layui-timeline-content layui-text">
+							<div class="layui-timeline-title">
+								<h3 class="layui-inline">WANZ后台管理系统<span class="layui-red">v2.0</span>使用说明文档　</h3>
+								<span class="layui-badge-rim">2018-12-15</span>
+							</div>
+							<ul>
+								<li>
+									<blockquote class="layui-elem-quote title">登录：用户名：admin，密码初始为：jump999</blockquote>
+								</li>
+								<li>本系统主要包含关于我们、内容管理、用户中心、碎片管理模块，完全适用于一般展示型网站、企业官网的搭建。</li>
+								<li style="font-weight: bolder;">模块功能介绍</li>
+								<li class="layui-blue">关于我们：可以编辑公司简介、企业文化、联系我们和公司风采信息添加操作</li>
+								<li class="layui-blue">内容管理：含有文章列表（公司新闻、行业新闻新增编辑）、发布招聘、留言以及产品管理和轮播图添加等不同子模块进行相关操作。</li>
+								<li class="layui-blue">用户中心：可添加新用户和编辑用户信息以及删除。<span class="layui-red">修改密码功能移至右上角菜单里->修改密码</span></li>
+								<li class="layui-blue">碎片管理：包括友情链接的新建和编辑、企业LOGO和电话以及网站SEO信息的设置。</li>
+								<li class="layui-red"><blockquote class="layui-elem-quote title">由于各个模块功能相似且用户操作相同，我们以内容管理-文章管理模块为例，进行文章的增删改查操作。</blockquote></li>
+
+								<li>添加：进入文章列表，点击左上角的添加文章，依次填写内容系信息，选择好文章文类，最后点击发布。</li>
+								<li>编辑：进入文章列表，在每一行文章列表最右边【操作】绿色编辑按钮，点击进入文章编辑页面。</li>
+								<li>删除：进入文章列表，在每一行文章列表最右边【操作】红色删除按钮，点击删除，确认后删除该文章。（<span style="color: red">批量删除：选择要删除的文章项，点击左上角的批量删除按钮。</span>）
+								<li>其他模块操作和上面相同。</li>
+								<li class="layui-red">新增刷新当前页面，关闭其他，关闭全部等按钮以及系统操作日志查看</li>
+								<li>为了避免缓存过多造成卡顿现象，请多尝试点击“清除缓存”按钮，清除缓存。</li>
+								<li class="layui-blue" style="font-weight: bolder;">如有技术不会问题，可联系张大海，微信号：a251630332a，在线交流。</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../layui/layui.js"></script>
+	<script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>

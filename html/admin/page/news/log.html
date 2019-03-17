@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>系统日志列表</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="../../css/public.css" media="all" />
+	<script src="../../../src/angular.js"></script>
+</head>
+<body class="childrenBody" ng-app="MES" ng-controller="message">
+<form class="layui-form">
+	<blockquote class="layui-elem-quote quoteBox">
+		<form class="layui-form">
+			<div class="layui-inline">
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input searchVal" placeholder="请输入搜索的内容" />
+				</div>
+				<a class="layui-btn search_btn" data-type="reload">搜索</a>
+
+			</div>
+			<a class="layui-btn" ng-click="reflesh()" style="float: right" data-type="reload">刷新</a>
+		</form>
+	</blockquote>
+	<table id="mesList" lay-filter="mesList"></table>
+	<!--审核状态-->
+	<script type="text/html" id="newsStatus">
+		{{#  if(d.newsStatus == "1"){ }}
+		<span class="layui-red">等待审核</span>
+		{{#  } else if(d.newsStatus == "0"){ }}
+		<span class="layui-blue">已存草稿</span>
+		{{#  } else { }}
+			审核通过
+		{{#  }}}
+	</script>
+
+	<!--操作-->
+	<script type="text/html" id="mesListBar">
+		<a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
+		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+		<!--<a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="look">预览</a>-->
+	</script>
+</form>
+<form class="layui-form lookMess" style="display: none">
+	<div class="layui-form-item" style="margin-top: 20px;">
+		<label class="layui-form-label">姓名</label>
+		<div class="layui-input-inline">
+			<input type="text" name="title" ng-disabled="true" ng-model="mesData.name" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">手机号</label>
+		<div class="layui-input-inline">
+			<input type="text" style="background-color: #fff" ng-model="mesData.tel" disabled autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">邮箱</label>
+		<div class="layui-input-inline">
+			<input type="text" disabled ng-model="mesData.mail" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">留言内容</label>
+		<div class="layui-input-block">
+			<textarea ng-model="mesData.content" ng-disabled="true" style="width: 90%" class="layui-textarea"></textarea>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">留言时间</label>
+		<div class="layui-input-inline">
+			<input type="text" ng-model="mesData.time" disabled  class="layui-input">
+		</div>
+	</div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="log.js"></script>
+</body>
+</html>

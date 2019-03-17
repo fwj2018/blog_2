@@ -1,0 +1,124 @@
+<!doctype html>
+<html ng-app="App" ng-controller="time1">
+<head>
+    <meta charset="utf-8">
+    <title>关于我</title>
+    <meta name="keywords" content="{{seo.keywords}}"/>
+    <meta name="description" content="{{seo.description}}"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/m.css" rel="stylesheet">
+    <link href="../src/layui/css/layui.css" rel="stylesheet">
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/comm.js"></script>
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.js"></script>
+    <![endif]-->
+    <script src="../src/angular.js"></script>
+    <script src="../src/layui/layui.js"></script>
+</head>
+<body>
+<!--top begin-->
+<header id="header">
+    <div class="navbox">
+        <h2 id="mnavh"><span class="navicon"></span></h2>
+        <div class="logo"><a href="javascript:;">大海の小丸子 ~博客</a></div>
+        <nav>
+            <ul id="starlist">
+                <li><a href="/">首页</a></li>
+                <li><a href="emotion.html">真情实感</a></li>
+                <li><a href="code.html">Code笔记</a></li>
+                <li><a href="time.html">往期文章</a></li>
+                <li><a href="about.html">关于我</a></li>
+            </ul>
+        </nav>
+        <div class="searchico" style="display: none"></div>
+    </div>
+</header>
+<div class="searchbox">
+    <div class="search">
+        <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+            <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);"
+                   onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}"
+                   onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
+            <input name="show" value="title" type="hidden">
+            <input name="tempid" value="1" type="hidden">
+            <input name="tbname" value="news" type="hidden">
+            <input name="Submit" class="input_submit" value="搜索" type="submit">
+        </form>
+    </div>
+    <div class="searchclose"></div>
+</div>
+<!--top end-->
+<article>
+    <div class="whitebg about">
+        <div class="ab_box"><i class="avatar_pic"><img src="images/zdh.jpg"></i>
+            <h3>张大海</h3>
+            <p>陕西武功人，汉，工学学士学位，毕业于东北皇家学院，90后作家，批判家，文艺青年。</p>
+        </div>
+        <h2 class="gd_title">内心独白</h2>
+        <p class="ab_dubai" style="text-indent: 2em;line-height: 26px;">
+            等一场雪来，每一朵雪花都那么安静，忽然就觉得，可以听雪的季节是这么的美好。在那些被喧闹掩埋的角落里，给生命留一些独白，简单明了快乐安然，留一些素色的烟火沉积过往，踽踽独行。一场雪来，不如说是等一片心境。心若简单，一切都简单。不是吗？</p>
+
+        <h2 class="gd_title">爱情成长史</h2>
+        <ul class="myblog">
+            <li><b>相遇</b>
+                <p>2015年1月16日</p>
+                <p><a href="javascript:;" target="_blank" class="buttons">初见</a></p>
+            </li>
+            <li><b>相识</b>
+                <p><a href="javascript:;" target="_blank">2017年1月16日</a></p>
+                <p><a href="javascript:;" class="buttons">二次再见</a></p>
+            </li>
+            <li><b>相恋</b>
+                <p>2017年2月14日</p>
+                <p><a href="javascript:;" target="_blank" class="buttons">美丽邂逅</a></p>
+            </li>
+            <li><b>相爱</b>
+                <p>2017年3月18日</p>
+                <a href="javascript:;" class="buttons">缘定一生</a></li>
+            <li><b>相守</b>
+                <p><a href="javascript:;" target="_blank">2018年7月30日</a></p>
+                <a href="javascript:;" class="buttons">白头偕老</a></li>
+        </ul>
+        <p>
+        <h2 class="gd_title">留言内容</h2>
+        <textarea name="lytext" cols="60" rows="5" id="lytext" ng-model="content"></textarea>
+        </p>
+        <span class="ly_button" ng-click="liuyan()" style="cursor: pointer"><a>留言</a></span>
+
+
+        <h2 class="gd_title">留言列表</h2>
+        <div class="fb">
+            <ul ng-repeat="l in mess">
+                <span class="tximg"><img ng-src="{{l.pic}}"></span>
+                <p class="fbtime"><span ng-bind="l.time"></span>{{l.name}}</p>
+                <p class="fbinfo">{{l.content}}</p>
+            </ul>
+            <div id="laypage1"></div>
+            <style>
+                #laypage1{ text-align: center;}
+                .timebox #laypage1 span:after { width: 0; height: 0px;  }
+
+            </style>
+        </div>
+    </div>
+</article>
+<footer>
+    <div class="box" style="text-align: center">
+        <div class="endnav">
+            <p><b>大海の小丸子 ~博客</b></p>
+            <p>所有文章未经授权禁止转载、摘编、复制或建立镜像，如有违反，追究法律责任。举报邮箱：<a
+                    href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=251630332@qq.com"
+                    target="_blank">251630332@qq.com</a></p>
+            <p>Copyright © 2019 <a href="/html/admin/page/login/login.html" target="_blank">小丸子科技</a> All Rights
+                Reserved.
+                备案号：<a href="http://www.miitbeian.gov.cn/" target="_blank"> 陕ICP备18012208号-1</a></p>
+        </div>
+    </div>
+    <a href="#">
+        <div class="top" ng-click="top()"></div>
+    </a></footer>
+</body>
+<script src="../src/controller/about.js"></script>
+</html>

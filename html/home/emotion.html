@@ -1,0 +1,162 @@
+<!doctype html>
+<html ng-app="App" ng-controller="time1">
+<head>
+    <meta charset="utf-8">
+    <title>张大海个人博客-真实情感</title>
+    <meta name="keywords" content="{{seo.keywords}}"/>
+    <meta name="description" content="{{seo.description}}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/m.css" rel="stylesheet">
+    <link href="../src/layui/css/layui.css" rel="stylesheet">
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/comm.js"></script>
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.js"></script>
+    <![endif]-->
+    <script src="../src/angular.js"></script>
+    <script src="../src/layui/layui.js"></script>
+</head>
+<body>
+<!--top begin-->
+<header id="header">
+    <div class="navbox">
+        <h2 id="mnavh"><span class="navicon"></span></h2>
+        <div class="logo"><a href="javascript:;">大海の小丸子 ~博客</a></div>
+        <nav>
+            <ul id="starlist">
+                <li><a href="/">首页</a></li>
+                <li><a href="emotion.html">真情实感</a></li>
+                <li><a href="code.html">Code笔记</a></li>
+                <!--<li><a href="daohang.html">QQ日志</a></li>-->
+                <li><a href="time.html">往期文章</a></li>
+                <li><a href="about.html">关于我</a></li>
+            </ul>
+        </nav>
+        <div class="searchico" style="display: none"></div>
+    </div>
+</header>
+<div class="searchbox">
+    <div class="search">
+        <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+            <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);"
+                   onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}"
+                   onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
+            <input name="show" value="title" type="hidden">
+            <input name="tempid" value="1" type="hidden">
+            <input name="tbname" value="news" type="hidden">
+            <input name="Submit" class="input_submit" value="搜索" type="submit">
+        </form>
+    </div>
+    <div class="searchclose"></div>
+</div>
+<!--top end-->
+<article>
+    <!--lbox begin-->
+    <div class="lbox">
+        <div class="whitebg lanmu"><img src="images/lm04.jpg">
+            <h1>真实情感</h1>
+            <p>生活充满点点滴滴，用博客去记录每一个成长故事和人生感悟。</p>
+        </div>
+        <div class="zhuanti whitebg">
+            <h2 class="htitle">岁月流年</h2>
+            <ul>
+                <li ng-repeat="c in allNews"><i class="ztpic"><a ng-click="read(c.id)" style="cursor:pointer" ><img ng-src="{{c.thum}}"></a></i> <b ng-bind="c.title"></b><span ng-bind="c.description"></span><a ng-click="read(c.id)" class="readmore" style="cursor:pointer">文章阅读</a></li>
+            </ul>
+            <div id="laypage1"></div>
+            <style>
+                #laypage1{ text-align: center;}
+                .timebox #laypage1 span:after { width: 0; height: 0px;  }
+
+            </style>
+        </div>
+        <!--bloglist end-->
+    </div>
+    <div class="rbox">
+        <div class="card">
+            <h2>我的名片</h2>
+            <p>网名：<span ng-bind="p.name"></span></p>
+            <p>职业：<span ng-bind="p.job"></span></p>
+            <p>现居：<span ng-bind="p.addr"></span></p>
+            <p>Email：<span ng-bind="p.qq"></span></p>
+            <ul class="linkmore">
+                <li><a href="/" target="_blank" class="iconfont icon-zhuye" title="网站地址"></a></li>
+                <li><a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=251630332@qq.com"
+                       target="_blank" class="iconfont icon-youxiang" title="我的邮箱"></a></li>
+                <li><a href="http://wpa.qq.com/msgrd?v=3&uin=251630332&site=qq&menu=yes" target="_blank"
+                       class="iconfont icon---" title="QQ联系我"></a></li>
+                <li id="weixin"><a href="#" target="_blank" class="iconfont icon-weixin" title="关注我的微信"></a><i><img
+                        src="images/wx.jpg"></i></li>
+            </ul>
+        </div>
+        <div class="whitebg paihang">
+            <h2 class="htitle">点击排行</h2>
+            <section class="topnews imgscale"><a href="javascript:;"><img
+                    src="images/ff.jpg"><span>一站式全栈学习</span></a></section>
+            <ul>
+                <li ng-repeat="c in c5"><i></i><a ng-bind="c.title" ng-click="read(c.id)" style="cursor:pointer"></a></li>
+            </ul>
+        </div>
+        <!--<div class="whitebg wenzi">-->
+            <!--<h2 class="htitle">猜你喜欢</h2>-->
+            <!--<ul>-->
+                <!--<li><a href="javascript:;">十条设计原则教你学会如何设计网页布局!</a></li>-->
+                <!--<li><a href="javascript:;">用js+css3来写一个手机栏目导航</a></li>-->
+                <!--<li><a href="javascript:;">6条网页设计配色原则,让你秒变配色高手</a></li>-->
+                <!--<li><a href="javascript:;">三步实现滚动条触动css动画效果</a></li>-->
+                <!--<li><a href="javascript:;">个人博客，属于我的小世界！</a></li>-->
+                <!--<li><a href="javascript:;">安静地做一个爱设计的女子</a></li>-->
+                <!--<li><a href="javascript:;">个人网站做好了，百度不收录怎么办？来，看看他们怎么做的。</a></li>-->
+                <!--<li><a href="javascript:;">做个人博客如何用帝国cms美化留言增加头像选择</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <div class="ad whitebg imgscale">
+            <ul>
+                <a href="/"><img src="images/ww.jpg"></a>
+            </ul>
+        </div>
+        <div class="whitebg tongji">
+            <h2 class="htitle">站点信息</h2>
+            <ul>
+                <li><b>建站时间</b>：<span ng-bind="siteInfo.date"></span></li>
+                <li><b>网站程序</b>：<span ng-bind="siteInfo.pro"></span></li>
+                <li><b>版本信息</b>：<a href="JavaScript:;" target="_blank">V2.0</a></li>
+                <li><b>文章统计</b>：<span ng-bind="siteInfo.num"></span></li>
+                <li><b>评论留言</b>：<span ng-bind="siteInfo.comment"></span></li>
+                <li><b>统计数据</b>：<a href="/html/admin/page/login/login.html" target="_blank" ng-bind="siteInfo.count"></a></li>
+                <li><b>微信公众号</b>：扫描二维码，关注我们</li>
+                <img src="images/wx1.jpg" class="tongji_gzh">
+            </ul>
+        </div>
+        <div class="links whitebg">
+            <h2 class="htitle"><span class="sqlink"></span>友情链接</h2>
+            <ul>
+                <li ng-repeat="l in link"><a href="{{l.url}}" target="_blank" ng-bind="l.url_name"></a></li>
+            </ul>
+        </div>
+    </div>
+</article>
+<footer>
+    <div class="box" style="text-align: center">
+        <!--<div class="wxbox">-->
+        <!--<ul>-->
+        <!--<li><img src="images/wxgzh.jpg"><span>微信公众号</span></li>-->
+        <!--<li><img src="images/wx.png"><span>我的微信</span></li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <div class="endnav">
+            <p><b>大海の小丸子 ~博客</b></p>
+            <p>所有文章未经授权禁止转载、摘编、复制或建立镜像，如有违反，追究法律责任。举报邮箱：<a
+                    href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=251630332@qq.com"
+                    target="_blank">251630332@qq.com</a></p>
+            <p>Copyright © 2019 <a href="/html/admin/page/login/login.html" target="_blank">小丸子科技</a> All Rights
+                Reserved.
+                备案号：<a href="http://www.miitbeian.gov.cn/" target="_blank"> 陕ICP备18012208号-1</a></p>
+        </div>
+    </div>
+    <a href="#">
+        <div class="top" ng-click="top()"></div>
+    </a></footer>
+</body>
+<script src="../src/controller/emotion.js"></script>
+</html>

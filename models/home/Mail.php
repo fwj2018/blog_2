@@ -146,6 +146,9 @@ class Mail extends BaseModel
             case 3:
                 $where = "status = 'checked' AND classify <> 3";
                 break;
+	    case 1:
+                $where = "status = 'checked' AND classify <> 1";
+                break;
             default:
                 //获取全部文章条数
                 $where = "status = 'checked'";

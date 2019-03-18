@@ -28,7 +28,7 @@ jhlfs.controller('time1', ['$scope', '$http', '$location',  function ($scope, $h
         var List = function () {
             var currPage = 1;
             var limit = 9;
-            $http.get('/api/home/mail/gettot?type=3').success(function (res) {
+            $http.get('/api/home/mail/gettot?type=1').success(function (res) {
                 laypage.render({ //layui分页
                     elem: 'laypage1',  //分页容器id
                     count: res,//总条数

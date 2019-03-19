@@ -31,5 +31,5 @@ CentOS7 切换命令行登录 systemctl set-default multi-user.target
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'nidemima' WITH GRANT OPTION;
 2、再刷新权限
 FLUSH PRIVILEGES;
-systemctl start firewalld
+systemctl start|stop firewalld
 

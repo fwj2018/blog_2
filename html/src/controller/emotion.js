@@ -27,14 +27,14 @@ jhlfs.controller('time1', ['$scope', '$http', '$location',  function ($scope, $h
 
         var List = function () {
             var currPage = 1;
-            var limit = 9;
+            var limit = 8;
             $http.get('/api/home/mail/gettot?type=3').success(function (res) {
                 laypage.render({ //layui分页
                     elem: 'laypage1',  //分页容器id
                     count: res,//总条数
                     curr: currPage,//当前页
                     limit: limit,//每页的条数
-                    limits: [9, 12, 18],//可选择每页数目
+                    limits: [8, 15, 30],//可选择每页数目
                     prev: "<<",//上一页图标
                     next: ">>",//下一页图标
                     theme: "#2a7497",//分页主色

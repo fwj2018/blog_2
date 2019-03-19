@@ -1,2 +1,2 @@
 # blog_2
-Blog second edition update
+博客第2版更新

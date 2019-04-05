@@ -6,6 +6,7 @@
     <meta name="keywords" content="{{seo.keywords}}" />
     <meta name="description" content="{{seo.description}}" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="icon" href="/jhlf.ico" type="images/x-ico">
     <!--<link rel="stylesheet" href="/html/src/layui/css/layui.css">-->
     <link href="./html/home/css/base.css" rel="stylesheet">
     <link href="./html/home/css/m.css" rel="stylesheet">
@@ -73,8 +74,8 @@
         <!--headline begin-->
         <div class="headline">
             <ul>
-                <li><a href="javascript:;" title="2019年给自己制定一个小目标，比如先挣上1个亿。"><img src="./html/home/images/h1.jpg" alt="2019年给自己制定一个小目标，比如先挣上1个亿。"><span>2019年给自己制定一个小目标</span></a></li>
                 <li><a href="javascript:;" title="所谓幸福，就是航遇见君。"><img src="./html/home/images/h2.jpg" alt="所谓幸福，就是航遇见君"><span>所谓幸福，就是航遇见君</span></a></li>
+				<li><a href="javascript:;" title=""><img src="./html/home/images/h1.jpg" alt=""><span ng-bind="siteInfo.xwz"></span></a></li>
             </ul>
         </div>
         <!--headline end-->
@@ -178,8 +179,8 @@
             <p>所有文章未经授权禁止转载、摘编、复制或建立镜像，如有违反，追究法律责任。举报邮箱：<a
                     href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=251630332@qq.com"
                     target="_blank">251630332@qq.com</a></p>
-            <p>Copyright © 2019 <a href="./html/admin/page/login/login.html" target="_blank">小丸子科技</a> All Rights Reserved.
-                备案号：<a href="http://www.miitbeian.gov.cn/" target="_blank"> 陕ICP备18012208号-1</a></p>
+            <p>Copyright © <a ng-bind="year" ng-click="del()" style="cursor:pointer"></span> <a href="./html/admin/page/login/login.html" target="_blank">小丸子科技</a> All Rights Reserved.
+                备案号：<a href="http://www.v1.jhlfs.top/" target="_blank"> 陕ICP备18012208号-1</a></p>
         </div>
     </div>
     <a href="#">

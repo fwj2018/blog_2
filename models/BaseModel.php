@@ -12,6 +12,7 @@ class BaseModel extends ActiveRecord
     //规则暂存
     public static $rulesTemp = [];
     public static $handle;
+    public $exportlogcount = 5000;
     //用户表
     public static $admin = 'admin';
     public static $log   = 'log';
@@ -337,6 +338,173 @@ class BaseModel extends ActiveRecord
         $data['result'] = $result;
         $data['time'] = date('Y-m-d H:i:s');
         self::$handle->createCommand()->insert(self::$log, $data)->execute();
+    }
+
+    public function getIp()
+    {
+        $unknown = 'unknown';
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] && strcasecmp($_SERVER['HTTP_X_FORWARDED_FOR'], $unknown)) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], $unknown)) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        if (false !== strpos($ip, ','))
+            $ip = reset(explode(',', $ip));
+        return $ip;
+    }
+
+    /*php导出excel格式*/
+    /**
+     * 导出数据组装
+     * @param $table
+     * @param $allField
+     * @param $disField
+     * @param $where
+     * @param $param
+     * @param $data1
+     * @param $data2
+     * @param $name
+     */
+    public function exportData($table, $allField, $disField, $where, $param, &$data1, &$data2, &$name)
+    {
+        $sqlTemp = "SELECT %s,`%s` FROM %s WHERE (1=1) %s LIMIT %s";
+        $sql = sprintf($sqlTemp, implode(',', $disField), implode("`,`", $allField), $table, $where, $this->exportlogcount);
+        $ex = self::$handle->createCommand($sql);
+        if( !empty( $param ) ) {
+            $ex->bindValues($param);
+        }
+        $data = $ex->queryAll();
+        $key = [];
+        if( !empty( $data ) && is_array($data) ) {
+            foreach( $data as $num => $row ) {
+                $arr1 = $arr2 = [];
+                foreach( $row as $k => $v ) {
+                    if( strpos($k, '__dis') !== false ) {
+                        $arr1[ $k ] = $v;
+                    } else {
+                        if( $num == 0 ) {
+                            $key[] = $k;
+                        }
+                        $arr2[] = addslashes($v);
+                    }
+                }
+                $data1[] = $arr1;
+                $data2[] = [ 'v' => "('" . implode("','", $arr2) . "')" ];
+            }
+        }
+        $sqlTemp = "INSERT IGNORE INTO %s (`%s`)";
+        $name = sprintf($sqlTemp, $table, implode("`,`", $key));
+    }
+
+    /*
+   导出excel 传入 两个参数 $data, $file
+   $data 数组类型的数据
+   data["title"]="sheet 标题"
+   data["desc"]="导出数据的描述（查询条件等）"
+   data["header"]=array()  导出数据表头 如 用户名 源ip、类型等
+   data["value"]=array(); 具体的每行数据 value数组的字段个数与header相同
+   data["valuedata"]=array(); 要导入的数据
+   data["tablename"]= 要导入的数据 表名称
+   $file 导出的文件名称，要直接下载时 不传此参数
+   */
+
+    public function exportexcel($data, $filename = '')
+    {
+        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel->getProperties()->setCreator("JHLFS")->setTitle("LOT DATA");
+        //第一个sheet 存放 友好的格式化过的数据
+        $objPHPExcel->setActiveSheetIndex(0);
+        $Sheet = $objPHPExcel->getActiveSheet();
+        $Sheet->setTitle($data[ "title" ]);
+        $columncount = count($data[ "header" ]);
+        $datacount = count($data[ "value" ]);
+        //合并拆分单元格
+        if( $columncount > 52 ) return false;
+        if( $columncount <= 26 ) {
+            $lastcell1 = chr(64 + $columncount) . "1";
+            $lastcell2 = chr(64 + $columncount) . "2";
+            $lastcell3 = chr(64 + $columncount) . "3";
+        } else {
+            $lastcell1 = "A" . chr(64 + $columncount - 26) . "1";
+            $lastcell2 = "A" . chr(64 + $columncount - 26) . "2";
+            $lastcell3 = "A" . chr(64 + $columncount - 26) . "3";
+        }
+        $Sheet->mergeCells('A1:' . $lastcell1);      // A28:B28合并
+        $Sheet->mergeCells('A2:' . $lastcell2);      // A28:B28合并
+        $Sheet->mergeCells('A3:' . $lastcell3);      // A28:B28合并
+        //$Sheet->mergeCells( 'A1:'.$lastcell3);      // A28:B28合并
+        //写入数据
+        //第一行 标题
+        $Sheet->setCellValue('A1', "标题：" . $data[ "title" ]);
+        //第二行描述
+        $Sheet->setCellValue('A2', "描述：" . $data[ "desc" ]);
+        //第三行		导出时间
+        $Sheet->setCellValue('A3', "导出时间：" . date("Y-m-d H:i:s") . "");
+        //$Sheet->setCellValue('A3', $tmptitle);
+        //第四行表头 各列名称
+        for( $i = 0; $i < $columncount; $i++ ) {
+            if( $i < 26 ) {
+                $cellname = chr(65 + $i) . "4";
+            } else {
+                $cellname = "A" . chr(64 + $columncount - 26) . "4";
+            }
+            $Sheet->setCellValue($cellname, $data[ "header" ][ $i ]);
+        }
+        //第五行开始往后为数据
+        for( $j = 0; $j < $datacount; $j++ ) {
+            $i = 0;
+            $rowdata = $data[ "value" ][ $j ];
+
+            foreach( $rowdata as $v ) {
+                if( $i < 26 ) {
+                    $cellname = chr(65 + $i) . ( $j + 5 );
+                } else {
+                    $cellname = "A" . chr(65 + $i - 26) . ( $j + 5 );
+                }
+
+                $Sheet->setCellValue($cellname, $v);
+
+                $i++;
+            }
+        }
+        //第二个 sheet 放原始数据 用于 导入数据时使用
+        //A1 存 数据校验信息  echo implode(" ",$arr);
+        //A2 开始存数据
+        $objPHPExcel->createSheet();
+        $Sheet2 = $objPHPExcel->setactivesheetindex(1);
+        $Sheet2->setTitle("隐藏数据");
+        $Sheet2->setCellValue('A2', $data[ "tablename" ]);//存表名
+        //$Sheet2->setCellValue('A3', $strdata);//数据
+
+        $datacount2 = count($data[ "valuedata" ]);
+        $strdata = "";
+        for( $j = 0; $j < $datacount2; $j++ ) {
+            $cellname = "A" . ( $j + 3 );
+            //$strdata .=  trim( $data["valuedata"][$j]["v"] );
+            $Sheet2->setCellValue($cellname, trim($data[ "valuedata" ][ $j ][ "v" ]));
+        }
+//		echo $strdata;
+        //$checksum = md5($strdata);
+        //记录笔数做校验和
+        $checksum = $datacount2;
+        $Sheet2->setCellValue('A1', $checksum);
+//		$Sheet2->setSheetState(\PHPExcel_Worksheet::SHEETSTATE_VISIBLE);
+        //$Sheet2->setSheetState(\PHPExcel_Worksheet::SHEETSTATE_VERYHIDDEN);
+        $Sheet2->setSheetState(\PHPExcel_Worksheet::SHEETSTATE_VERYHIDDEN);
+        $objPHPExcel->setActiveSheetIndex(0);
+        //生成文件或下载
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        if( $filename == "" ) {
+            header('pragma:public');
+            $file_load_name = iconv("utf-8", "gb2312", $data[ "title" ]);
+            header("Content-Disposition:attachment;filename=" . $file_load_name . ".xls");//export.xls
+            $objWriter->save('php://output');
+            exit;
+        } else {
+            //$objWriter->save(str_replace('.php', '.xls', __FILE__));
+            $objWriter->save($filename);
+            return true;
+        }
     }
 
 }

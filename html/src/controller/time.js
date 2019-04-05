@@ -22,18 +22,21 @@ jhlfs.controller('time1', ['$scope', '$http', '$location',  function ($scope, $h
         var List = function () {
             var currPage = 1;
             var limit = 12;
-            $http.get('/api/home/mail/gettot').success(function (res) {
+            $http.get('/api/home/mail/gettot?t=' +$scope.key).success(function (res) {
                 laypage.render({ //layui分页
                     elem: 'laypage1',  //分页容器id
                     count: res,//总条数
                     curr: currPage,//当前页
                     limit: limit,//每页的条数
                     limits: [12, 20, 30],//可选择每页数目
-                    prev: "<<",//上一页图标
-                    next: ">>",//下一页图标
+                    //prev: "<<",//上一页图标
+                    //next: ">>",//下一页图标
+					prev: "上一页",//上一页图标
+                    next: "下一页",//下一页图标
                     theme: "#2a7497",//分页主色
                     // layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],//设置分页组件显示
-                    layout: ['prev', 'page', 'next', 'skip'],//设置分页组件显示
+                    //layout: ['prev', 'page', 'next', 'skip'],//设置分页组件显示
+					layout: ['prev', 'next', 'skip'],//设置分页组件显示
                     jump: function (obj, first) {
                         if (!first) { //设置首次渲染分页无需走业务逻辑处理函数，不然会陷入死循环
                             currPage = obj.curr;

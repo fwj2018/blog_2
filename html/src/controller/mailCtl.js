@@ -16,6 +16,15 @@ jhlfs.controller('mailCtl', ['$scope', '$http', '$location',  function ($scope, 
         $http.get('/api/home/mail/get-seo').success(function (res) {
             $scope.seo = res;
         });
+		var date=new Date; $scope.year=date.getFullYear();
+		//清Redis缓存
+		$scope.del = function(){
+			$http.get('/api/home/mail/delredis').success(function (res) {
+            if(res){
+				layer.msg('缓存已清理，请刷新页面！');
+			}
+        });
+		}
 
         //个人名片
         $scope.p = {

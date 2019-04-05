@@ -15,6 +15,7 @@ class Mail extends BaseModel
 {
     public static $table = 'about';
     public static $article = 'article';
+    public static $admin = 'admin';
 
     public function __construct()
     {
@@ -67,7 +68,7 @@ class Mail extends BaseModel
     public function click8()
     {
         $where = "status = 'checked'";
-        $extra = "ORDER BY `like` DESC LIMIT 8";
+        $extra = "ORDER BY `like` DESC LIMIT 10";
         return $this->getS(self::$article, '*', 0, $where, [], $extra);
 
     }
@@ -121,9 +122,11 @@ class Mail extends BaseModel
         $param['classify'] = intval($data['class']);
         $param['id'] = intval($data['id']);
         $data = $this->getS(self::$article, '*', 0, $where, $param);
-		$key = array_rand($data,2);
+		$key = array_rand($data,4);
 		$arr[] = $data[$key[0]];
 		$arr[] = $data[$key[1]];
+		$arr[] = $data[$key[2]];
+		$arr[] = $data[$key[3]];
 		return $arr;
     }
 
@@ -140,7 +143,7 @@ class Mail extends BaseModel
     }
 
     //获取总数
-    public function getNum($type)
+    public function getNum($type,$t)
     {
         switch ($type) {
             case 3:
@@ -153,7 +156,12 @@ class Mail extends BaseModel
                 //获取全部文章条数
                 $where = "status = 'checked'";
         }
-        return $this->getS(self::$article, 'count(*)', 2, $where);
+        $param = [];
+		if (!empty(trim($t))) {
+            $where .= " AND title like :tile";
+            $param['tile'] = '%' . trim($t) . '%';
+        }
+        return $this->getS(self::$article, 'count(*)', 2, $where, $param);
 
     }
 
@@ -209,6 +217,85 @@ class Mail extends BaseModel
         $this->addOrEdit('liuyan', $data, 'id');
         return true;
 
+    }
+	
+	//获取站点信息
+	public function getSiteInfo()
+	{
+	
+		$meet = strtotime('2015-1-16 00:00:00');
+		$like = strtotime('2017-1-16 00:00:00');
+		$now = time();
+		$m = ceil(($now - $meet) / (3600 * 24));
+		$l = ceil(($now - $like) / (3600 * 24));
+		$data['xwz'] =  '相识第' . $m . '天，相爱第' . $l . '天';
+		$data['date']       = '2018年7月16日';
+		$data['pro']        = 'Yii2.0+Mysql+Angular';
+		$data['version']    = 'V2.0';
+		$data['num']        = $this->getNum(0,'').' 篇';
+		$data['comment']    = $this->getMess().' 条';
+		$data['count']      = '后台系统';
+		return $data;
+	}
+	
+	//清redis缓存
+	public function delRedis(){
+		$this->redis->flushAll();
+		return true;
+	}
+	
+	//数据导出
+    public function QueryUserType($column = 'level')
+    {
+        return "CASE " . $column . "
+            WHEN 1 THEN '注册会员'
+            WHEN 2 THEN '中级会员'
+            WHEN 3 THEN '高级会员'
+            WHEN 4 THEN '钻石会员'
+            WHEN 5 THEN '超级会员'
+            ELSE '未定义'
+          END " . $column;
+    }
+
+    public function QuerySex($column = 'sex')
+    {
+        return "CASE " . $column . "
+            WHEN 0 THEN '女'
+            WHEN 1 THEN '男'
+            ELSE '保密'
+          END " . $column;
+    }
+
+    /**
+     * 用户导出Excel
+     */
+    public function Userexport()
+    {
+        $where = "ORDER BY id DESC";
+        $param = [];
+        $data1 = $data2 = [];
+        $allField = ['name', "pass", 'time', 'last_time', 'sex', 'level', 'email', 'brief', 'date'];
+        $disField = [
+            'name AS name__dis' => '用户名',
+            'pass AS pass__dis' => '密码',
+            'time AS time__dis' => '本次登录时间',
+            'last_time AS last_time__dis' => '上一次登录时间',
+            $this->QuerySex('sex') . '__dis' => '性别',
+            $this->QueryUserType('level') . '__dis' => '用户角色',
+            'email AS email__dis' => '用户邮箱',
+            'brief AS brief__dis' => '用户简介',
+            'date AS date__dis' => '认证日期'
+        ];
+        $this->exportData(self::$admin, $allField, array_keys($disField), $where, $param, $data1, $data2, $name);
+        $data["title"] = "用户数据";
+        $data["desc"] = "用户注册详情";
+        $data["header"] = array_values($disField); // 导出数据表头 如 用户名 密码、时间、邮箱等
+        //去掉第一行
+        $data["value"] = $data1; //具体的每行数据 value数组的字段个数与header相同
+        $data["valuedata"] = $data2;// 要导入的数据
+        $data["tablename"] = $name;//要导入的数据 表名称
+        $filename = "";
+        $this->exportexcel($data, $filename);
     }
 
 }

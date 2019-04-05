@@ -70,8 +70,9 @@ class MailController extends BaseController
     public function actionGettot()
     {
         $type = \Yii::$app->request->get('type','');
+		$t = \Yii::$app->request->get('t','');
         $model = new Mail();
-        return $model->getNum($type);
+        return $model->getNum($type,$t);
     }
     
     //列表分页
@@ -108,13 +109,7 @@ class MailController extends BaseController
     public function actionSiteInfo()
     {
         $model = new Mail();
-        $data['date']       = '2018年1月16日';
-        $data['pro']        = 'Yii2.0+Mysql+Angular';
-        $data['version']    = 'V2.0';
-        $data['num']        = $model->getNum(0).' 篇';
-        $data['comment']    = $model->getMess().' 条';
-        $data['count']      = '后台系统';
-        return $data;
+        return $model->getSiteInfo();
     }
 
     //留言
@@ -148,6 +143,19 @@ class MailController extends BaseController
         $model = new Mail();
         return $model->getId($get);
 
+    }
+	
+	//清Redis缓存
+	public function actionDelredis()
+    {
+        $model = new Mail();
+        return $model->delRedis();
+    }
+
+    public function actionExport()
+    {
+        $model = new Mail();
+        return $model->Userexport();
     }
 
 

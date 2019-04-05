@@ -7,6 +7,7 @@
     <meta name="description" content="{{seo.description}}"/>
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="icon" href="/jhlf.ico" type="images/x-ico">
     <link href="css/base.css" rel="stylesheet">
     <link href="css/m.css" rel="stylesheet">
     <link href="../src/layui/css/layui.css" rel="stylesheet">
@@ -42,11 +43,11 @@
     <div class="search">
             <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);"
                    onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}"
-                   onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text" ng-model="key" ng-change="submit()">
+                   onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text" ng-model="key">
             <input name="show" value="title" type="hidden">
             <input name="tempid" value="1" type="hidden">
             <input name="tbname" value="news" type="hidden">
-            <input name="Submit" class="input_submit" value="搜索" type="submit" ng-click="submit()">
+            <input name="Submit" class="input_submit" value="搜索" type="submit" ng-click="submit()" style="cursor: pointer">
     </div>
     <div class="searchclose"></div>
 </div>
@@ -55,7 +56,8 @@
     <div class="whitebg timebox">
         <h2 class="htitle">往期文章</h2>
         <ul id="list">
-            <li ng-repeat="c in allNews"><span ng-bind="c.time| date: 'yyyy-MM-dd'"></span><i><a ng-click="read(c.id)" target="_blank" style="cursor:pointer">{{c.title}}</a></i></li>
+            <li ng-repeat="c in allNews" ng-if="allNews.length > 0"><span ng-bind="c.time| date: 'yyyy-MM-dd'"></span><i><a ng-click="read(c.id)" target="_blank" style="cursor:pointer">{{c.title}}</a></i></li>
+			<center><p ng-if="allNews.length == 0">暂无数据！</p></center>
         </ul>
         <ul id="list2">
         </ul>

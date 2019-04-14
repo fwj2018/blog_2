@@ -229,7 +229,7 @@ class Mail extends BaseModel
 		$m = ceil(($now - $meet) / (3600 * 24));
 		$l = ceil(($now - $like) / (3600 * 24));
 		$data['xwz'] =  '相识第' . $m . '天，相爱第' . $l . '天';
-		$data['date']       = '2018年7月16日';
+		$data['date']       = formatDate('2017-12-25');
 		$data['pro']        = 'Yii2.0+Mysql+Angular';
 		$data['version']    = 'V2.0';
 		$data['num']        = $this->getNum(0,'').' 篇';

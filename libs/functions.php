@@ -166,3 +166,21 @@ function isUrl($url)
             $url) == 1;
 }
 
+//比较两个时间的差
+function formatDate($time)
+{
+    date_default_timezone_set('PRC');
+    $arr = [];//暂存时间
+    $t1 = new \DateTime($time);
+    $t2 = new \DateTime(date('Y-m-d H:i:s'));
+    $interval = $t2->diff($t1);
+    $arr['Y'] = intval($interval->format('%Y'));
+    $arr['m'] = intval($interval->format('%m'));
+    $arr['d'] = intval($interval->format('%d'));
+    $arr['H'] = intval($interval->format('%H'));
+    $arr['i'] = intval($interval->format('%i'));
+    $arr['s'] = intval($interval->format('%s'));
+    return sprintf('%d年%d月', $arr['Y'], $arr['m']);
+}
+
+

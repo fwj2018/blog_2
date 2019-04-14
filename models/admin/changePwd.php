@@ -96,12 +96,12 @@ class changePwd extends BaseModel
             $where = 'name=:name';
             $params['name'] = trim($data['name']);
             $info = $this->getS('admin', '*', 1, $where, $params);
-            if ($info['pass'] !== md5(trim($data['repasswd']))) {
+            if ($info['pass'] !== sha1(trim($data['repasswd']))) {
                 throw new \Exception('原密码不正确，请重新输入！');
             }
             //更新密码
             $params['id'] = $info['id'];
-            $params['pass'] = md5(trim($data['newpass']));
+            $params['pass'] = sha1(trim($data['newpass']));
             $this->addOrEdit(self::$table, $params, 'id');
             parent::saveOptLog(1);
             return true;

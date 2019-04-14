@@ -93,7 +93,7 @@ class Fwj extends BaseModel
                 throw new \Exception('该用户已被禁用，请联系管理员！');
             }
             //校验密码
-            if ($info['pass'] != md5(trim($data['passwd']))) {
+            if ($info['pass'] != sha1(trim($data['passwd']))) {
                 throw new \Exception('密码不正确，请重新输入！');
             }
             $session->set('username', $info['name']);
@@ -247,7 +247,7 @@ class Fwj extends BaseModel
             $where = 'name=:name';
             $params['name'] = $session['username'];
             $info = $this->getS(self::$admin, 'id,pass', 1, $where, $params);
-            if (md5(trim($post['pass'])) != $info['pass']) {
+            if (sha1(trim($post['pass'])) != $info['pass']) {
                 throw new \Exception('锁屏密码错误，请重新输入！');
             }
             $data['id'] = $info['id'];
